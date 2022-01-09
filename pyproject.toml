@@ -27,6 +27,7 @@ description = "Object-oriented commandline"
 license = "MIT"
 name = "spall"
 version = "0.1.0"
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.8"
