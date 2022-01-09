@@ -7,5 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/spall/compare/v0.1.0...HEAD)
 ------------------------------------------------------------------------
-### Added
-- Initial Release
+
+[0.1.0](https://github.com/jshwi/spall/releases/tag/v0.1.0) - 2022-01-09
+------------------------------------------------------------------------
+Initial Release
