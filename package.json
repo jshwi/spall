@@ -1,6 +1,6 @@
 {
   "name": "spall",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Intuitive Git for Python",
   "private": true,
   "directories": {
