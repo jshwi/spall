@@ -25,64 +25,140 @@ Object oriented commandline
 Install
 -------
 
-``pip install spall``
+.. code-block:: console
+
+    $ pip install spall
 
 Development
+-----------
 
-``poetry install``
+.. code-block:: console
 
-Example Usage
--------------
+    $ pip install spall
+
+Usage
+-----
+
+Import ``Subprocess`` from ``spall``
 
 .. code-block:: python
 
-    from spall import Subprocess
+    >>> from spall import Subprocess
 
-    cmd = str(...)  # any command here e.g. git
+Instantiate individual executables
 
-    proc = Subprocess(cmd)  # instantiate executable as object
+.. code-block:: python
 
-    passing = ...  # insert passing command here
+    >>> cat = Subprocess("cat")
+    >>> echo = Subprocess("echo")
+    >>> fails = Subprocess("false")
 
-    returncode = proc.call(passing)  # this will print to console
-    print(returncode)  # -> 0
 
-    proc.call(passing, capture=True)  # this will record the output
-    proc.stdout()  # -> [...]
+Default is to return returncode and print stdout and stderr to console
 
-    # stdout is consumed
-    proc.stdout()  # -> []
+.. code-block:: python
 
-    # this will record the output twice
-    proc.call(passing, capture=True)
-    proc.call(passing, capture=True)
-    proc.stdout()  # -> [..., ...]
-    proc.stdout()  # -> []
+    >>> returncode = echo.call("Hello, world")
+    Hello, world
+    >>> returncode
+    0
 
-     # this will redirect stdout to /dev/null
-    proc.call(passing, devnull=True)
+Capture stdout with the ``capture`` keyword argument
 
-    # this will pipe stdout to file
-    proc.call(file="~/example.txt")
+.. code-block:: python
 
-    failing = ...  # insert failing command here
+    >>> echo.call("Hello, world", capture=True)
+    0
 
-    # will raise a ``subprocess.CalledProcessError``
-    returncode = proc.call(failing)
-    print(returncode)  # -> > 0
+Stdout is consumed by calling ``stdout()`` which returns a list
 
-    # this, however, will not
-    returncode = proc.call(failing, suppress=True)
-    print(returncode)  # -> > 0
+.. code-block:: python
 
-    # all the keyword arguments above can be set as the default for the
-    # instantiated object
-    proc = Subprocess(cmd, capture=True)
+    >>> echo.stdout()
+    ['Hello, world']
+    >>> echo.stdout()
+    []
 
-    proc.call(passing)
-    proc.stdout()  # -> [...]
+Stdout is accrued until ``stdout()`` is called
 
-    # but they will be overridden through the method
-    proc.call(passing, capture=False)
-    proc.stdout()  # -> []
+.. code-block:: python
+
+    >>> echo.call("Hello, world", capture=True)
+    0
+    >>> echo.call("Goodbye, world", capture=True)
+    0
+    >>> echo.stdout()
+    ['Hello, world', 'Goodbye, world']
+    >>> echo.stdout()
+    []
+
+Redirect stdout to /dev/null with the ``devnull`` keyword argument
+
+.. code-block:: python
+
+    >>> echo.call("Hello, world", devnull=True)
+    0
+    >>> echo.stdout()
+    []
+
+Pipe stdout to file with the ``file`` keyword argument
+
+.. code-block:: python
+
+    >>> import os
+    >>> import tempfile
+    >>>
+    >>> tmp = tempfile.NamedTemporaryFile(delete=False)
+    >>> echo.call("Hello, world", file=tmp.name)
+    0
+    >>> returncode = cat.call(tmp.name)
+    Hello, world
+    >>> returncode
+    0
+    >>> os.remove(tmp.name)
+
+Failing command will raise a ``subprocess.CalledProcessError``
+
+.. code-block:: python
+
+    >>> import contextlib
+    >>> from subprocess import CalledProcessError
+    >>>
+    >>> with contextlib.redirect_stderr(None):
+    ...     try:
+    ...         returncode = fails.call()
+    ...     except CalledProcessError as err:
+    ...         str(err)
+    "Command 'false' returned non-zero exit status 1."
+    >>> returncode
+    0
+
+This, however, will not
+
+.. code-block:: python
+
+    >>> with contextlib.redirect_stderr(None):
+    ...     fails.call(suppress=True)
+    1
+
+All the keyword arguments above can be set as the default for the instantiated object
+
+.. code-block:: python
+
+    >>> echo = Subprocess("echo", capture=True)
+    >>> echo.call("Hello, world")
+    0
+    >>> echo.stdout()
+    ['Hello, world']
+
+Which can then be overridden
+
+.. code-block:: python
+
+    >>> returncode = echo.call("Hello, world", capture=False)
+    Hello, world
+    >>> returncode
+    0
+    >>> echo.stdout()
+    []
 
