@@ -26,8 +26,8 @@ authors = ["jshwi <stephen@jshwisolutions.com>"]
 description = "Object-oriented commandline"
 license = "MIT"
 name = "spall"
-version = "0.1.1"
 readme = "README.rst"
+version = "0.1.1"
 
 [tool.poetry.dependencies]
 python = "^3.8"
