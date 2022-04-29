@@ -641,7 +641,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "pyaud"
-version = "3.12.1"
+version = "3.13.2"
 description = "Framework for writing Python package audits"
 category = "dev"
 optional = false
@@ -1133,7 +1133,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "f954dc0f6a95eccda7e93b2097c108881cdcdd66590af5e47d7fefdc4cb22d53"
+content-hash = "e4e8a3d8d399dc50636a8542359ca3f408e457d59594d498869cc58231049b6c"
 
 [metadata.files]
 alabaster = [
@@ -1550,8 +1550,8 @@ py = [
     {file = "py-1.11.0.tar.gz", hash = "sha256:51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719"},
 ]
 pyaud = [
-    {file = "pyaud-3.12.1-py3-none-any.whl", hash = "sha256:5ee949cdabf694e18e5340f454ccc5a970379afbc12ba33c7ce5e0a218b72d0e"},
-    {file = "pyaud-3.12.1.tar.gz", hash = "sha256:b1171cf7e686e2ea08ed02651da2d5bcf477d9acbfe97951860686f6aae68ced"},
+    {file = "pyaud-3.13.2-py3-none-any.whl", hash = "sha256:5d0a46b66fcb37ad8d9f87f98e451bd6d38165e14cb7affe394c7e0a42821eb0"},
+    {file = "pyaud-3.13.2.tar.gz", hash = "sha256:7f66661604105ee835f4e6f15fa93d6978a7e5845f05e6945cb297ac3c8e64ff"},
 ]
 pyaud-plugins = [
     {file = "pyaud-plugins-0.3.0.tar.gz", hash = "sha256:435e6cd980acd82b40730af9311e1bbdcd292871188918384f7c040e0003e6f2"},
