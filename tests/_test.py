@@ -46,13 +46,14 @@ def test_repr(capsys: pytest.CaptureFixture) -> None:
 class TestHandleStdout:
     """Test varying ways of handling stdout."""
 
-    EXPECTED = "stdout"
+    OUTPUT = b"stdout"
+    EXPECTED = OUTPUT.decode()
     RETURNCODE = 0
 
     def _subproc(
         self, monkeypatch: pytest.MonkeyPatch, **kwargs: t.Any
     ) -> sp.Subprocess:
-        patch = Patch([self.EXPECTED.encode(), b""], [b""], self.RETURNCODE)
+        patch = Patch([self.OUTPUT, b""], [b""], self.RETURNCODE)
         monkeypatch.setattr("spall.Subprocess._sanity_check", lambda _: None)
         monkeypatch.setattr("spall._subprocess._sp.Popen", patch)
         return sp.Subprocess(CMD, **kwargs)
@@ -106,13 +107,14 @@ class TestHandleStdout:
 class TestHandleStderr:
     """Test varying ways of handling stderr."""
 
-    EXPECTED = "stderr"
+    OUTPUT = b"stderr"
+    EXPECTED = OUTPUT.decode()
     RETURNCODE = 1
 
     def _subproc(
         self, monkeypatch: pytest.MonkeyPatch, **kwargs: t.Any
     ) -> sp.Subprocess:
-        patch = Patch([b""], [self.EXPECTED.encode(), b""], self.RETURNCODE)
+        patch = Patch([b""], [self.OUTPUT, b""], self.RETURNCODE)
         monkeypatch.setattr("spall.Subprocess._sanity_check", lambda _: None)
         monkeypatch.setattr("spall._subprocess._sp.Popen", patch)
         return sp.Subprocess(CMD, **kwargs)
