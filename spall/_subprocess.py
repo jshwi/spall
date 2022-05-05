@@ -3,7 +3,6 @@ spall._subprocess
 ==================
 """
 import functools as _functools
-import logging as _logging
 import os as _os
 import shutil as _shutil
 import subprocess as _sp
@@ -65,7 +64,6 @@ class Subprocess:
         self._kwargs = kwargs
         self._stdout = _Stream()
         self._stderr = _Stream()
-        self._logger = _logging.getLogger(cmd)
         if positionals is not None:
             self._set_positionals(positionals)
 
@@ -146,14 +144,11 @@ class Subprocess:
         """
         self._sanity_check()
         args = tuple(str(i) for i in args)
-        self._logger.debug("called with %s", args)
         returncode = self._open_process(*args, **kwargs)
-        if returncode:
-            self._logger.error("returned non-zero exit status %s", returncode)
-            if not kwargs.get("suppress", self._kwargs.get("suppress", False)):
-                raise _sp.CalledProcessError(
-                    returncode, self._stringify_cmd(args)
-                )
+        if returncode and not kwargs.get(
+            "suppress", self._kwargs.get("suppress", False)
+        ):
+            raise _sp.CalledProcessError(returncode, self._stringify_cmd(args))
 
         return returncode
 
