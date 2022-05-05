@@ -63,14 +63,6 @@ class Subprocess:
         # not useless; silences `mypy` with `_t.Any` and dynamic attrs
         return super().__getattribute__(key)
 
-    def _get_key_value(
-        self,
-        key: str,
-        kwargs: _t.Dict[str, _t.Union[bool, str]],
-        default: _t.Optional[_t.Union[bool, str]] = None,
-    ) -> _t.Optional[_t.Union[bool, str]]:
-        return kwargs.get(key, self._kwargs.get(key, default))
-
     def _set_positionals(self, positionals: _t.Iterable[str]) -> None:
         for positional in positionals:
             self.__setattr__(
@@ -84,15 +76,15 @@ class Subprocess:
         if pipe.stdout is not None:
             for line in iter(pipe.stdout.readline, b""):
                 line = line.decode("utf-8", "ignore")
-                file = self._get_key_value("file", kwargs)
+                file = kwargs.get("file", self._kwargs.get("file"))
                 if file is not None:
                     with open(file, "a+", encoding="utf-8") as fout:
                         fout.write(line)
 
-                elif self._get_key_value("capture", kwargs, False):
+                elif kwargs.get("capture", self._kwargs.get("capture", False)):
                     self._stdout.append(line.strip())
 
-                elif self._get_key_value("devnull", kwargs, False):
+                elif kwargs.get("devnull", self._kwargs.get("devnull", False)):
                     with open(_os.devnull, "w", encoding="utf-8") as fout:
                         fout.write(line)
 
@@ -144,7 +136,7 @@ class Subprocess:
         returncode = self._open_process(*args, **kwargs)
         if returncode:
             self._logger.error("returned non-zero exit status %s", returncode)
-            if not self._get_key_value("suppress", kwargs):
+            if not kwargs.get("suppress", self._kwargs.get("suppress", False)):
                 raise _sp.CalledProcessError(
                     returncode, self._stringify_cmd(args)
                 )
