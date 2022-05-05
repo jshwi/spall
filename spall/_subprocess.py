@@ -13,6 +13,26 @@ import typing as _t
 from . import exceptions as _exceptions
 
 
+class _Stream:
+    def __init__(self) -> None:
+        self._list: _t.List[str] = []
+
+    def consume(self) -> _t.List[str]:
+        """Consume and return accrued output.
+
+        :return: List of captured output.
+        """
+        captured, self._list = self._list, []
+        return captured
+
+    def append(self, item: str) -> None:
+        """Append to ``_list``.
+
+        :param item: Output as str.
+        """
+        self._list.append(item)
+
+
 class Subprocess:
     """Object-oriented Subprocess.
 
@@ -38,14 +58,13 @@ class Subprocess:
     def __init__(
         self,
         cmd: str,
-        loglevel: str = "error",
         positionals: _t.Optional[_t.Iterable[str]] = None,
         **kwargs: _t.Union[bool, str],
     ) -> None:
         self._cmd = cmd
-        self._loglevel = loglevel
         self._kwargs = kwargs
-        self._stdout: _t.List[str] = []
+        self._stdout = _Stream()
+        self._stderr = _Stream()
         self._logger = _logging.getLogger(cmd)
         if positionals is not None:
             self._set_positionals(positionals)
@@ -70,11 +89,12 @@ class Subprocess:
                 _functools.partial(self.call, positional),
             )
 
-    def _handle_stdout(
-        self, pipe: _sp.Popen, **kwargs: _t.Union[bool, str]
+    def _handle_stream(
+        self, pipe: _sp.Popen, std: str, **kwargs: _t.Union[bool, str]
     ) -> None:
-        if pipe.stdout is not None:
-            for line in iter(pipe.stdout.readline, b""):
+        std_pipe = getattr(pipe, std)
+        if std_pipe is not None:
+            for line in iter(std_pipe.readline, b""):
                 line = line.decode("utf-8", "ignore")
                 file = kwargs.get("file", self._kwargs.get("file"))
                 if file is not None:
@@ -82,27 +102,21 @@ class Subprocess:
                         fout.write(line)
 
                 elif kwargs.get("capture", self._kwargs.get("capture", False)):
-                    self._stdout.append(line.strip())
+                    getattr(self, f"_{std}").append(line.strip())
 
                 elif kwargs.get("devnull", self._kwargs.get("devnull", False)):
                     with open(_os.devnull, "w", encoding="utf-8") as fout:
                         fout.write(line)
 
                 else:
-                    _sys.stdout.write(line)
-
-    def _handle_stderr(self, pipe: _sp.Popen) -> None:
-        if pipe.stderr is not None:
-            for line in iter(pipe.stderr.readline, b""):
-                getattr(self._logger, self._loglevel)(
-                    line.decode("utf-8", "ignore").strip()
-                )
+                    getattr(_sys, std).write(line)
 
     def _open_process(self, *args: str, **kwargs: _t.Union[bool, str]) -> int:
         cmd = [self._cmd, *args]
         with _sp.Popen(cmd, stdout=_sp.PIPE, stderr=_sp.PIPE) as pipe:
-            self._handle_stdout(pipe, **kwargs)
-            self._handle_stderr(pipe)
+            for std in ("stdout", "stderr"):
+                self._handle_stream(pipe, std, **kwargs)
+
             return pipe.wait()
 
     def _sanity_check(self) -> None:
@@ -150,5 +164,13 @@ class Subprocess:
 
         :return: List of captured stdout.
         """
-        captured, self._stdout = self._stdout, []
-        return captured
+        return self._stdout.consume()
+
+    def stderr(self) -> _t.List[str]:
+        """Consume accrued stderr by returning the lines of output.
+
+        Assign new container to ``_stderr``.
+
+        :return: List of captured stderr.
+        """
+        return self._stderr.consume()

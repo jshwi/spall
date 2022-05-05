@@ -109,12 +109,9 @@ class TestHandleStderr:
     EXPECTED = OUTPUT.decode()
     RETURNCODE = 1
 
-    def test_default(
-        self, caplog: pytest.LogCaptureFixture, mocksp: MockSubprocessType
-    ) -> None:
+    def test_default(self, mocksp: MockSubprocessType) -> None:
         """Test stderr to console.
 
-        :param caplog: Capture log output.
         :param mocksp: Mock and return ``spall.Subprocess`` instance.
         """
         subprocess = mocksp(CMD, [b""], [self.OUTPUT, b""], self.RETURNCODE)
@@ -126,20 +123,30 @@ class TestHandleStderr:
         ) == "Command '{}' returned non-zero exit status {}.".format(
             CMD, self.RETURNCODE
         )
-        assert self.EXPECTED in caplog.text
 
     def test_default_suppress(
-        self, caplog: pytest.LogCaptureFixture, mocksp: MockSubprocessType
+        self, capsys: pytest.CaptureFixture, mocksp: MockSubprocessType
     ) -> None:
         """Test stderr when suppress is active.
 
-        :param caplog: Capture log output.
+        :param capsys: Capture sys output.
         :param mocksp: Mock and return ``spall.Subprocess`` instance.
         """
         subprocess = mocksp(
             CMD, [b""], [self.OUTPUT, b""], self.RETURNCODE, suppress=True
         )
         subprocess.call()
-        assert (
-            f"returned non-zero exit status {self.RETURNCODE}" in caplog.text
+        assert self.EXPECTED in capsys.readouterr()[1]
+
+    def test_capture(self, mocksp: MockSubprocessType) -> None:
+        """Test stderr when captured.
+
+        :param mocksp: Mock and return ``spall.Subprocess`` instance.
+        """
+        subprocess = mocksp(
+            CMD, [b""], [self.OUTPUT, b""], self.RETURNCODE, capture=True
         )
+        with pytest.raises(CalledProcessError):
+            subprocess.call()
+
+        assert subprocess.stderr() == [self.EXPECTED]
