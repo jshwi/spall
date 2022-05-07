@@ -3,6 +3,7 @@ tests._test
 ===========
 """
 # pylint: disable=too-few-public-methods
+import contextlib
 from datetime import datetime
 from pathlib import Path
 from subprocess import CalledProcessError
@@ -41,6 +42,18 @@ def test_repr(capsys: pytest.CaptureFixture) -> None:
     print(proc)
     output = capsys.readouterr()
     assert output.out.strip() == f"<Subprocess ({CMD})>"
+
+
+def test_with_contextlib(capsys: pytest.CaptureFixture) -> None:
+    """Test using None with ``contextlib.redirect_``.
+
+    :param capsys: Capture sys output.
+    """
+    subprocess = sp.Subprocess("echo")
+    with contextlib.redirect_stdout(None):
+        subprocess.call()
+
+    assert capsys.readouterr()[0] == ""
 
 
 class TestHandleStdout:

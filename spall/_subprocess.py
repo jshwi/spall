@@ -107,7 +107,9 @@ class Subprocess:
                         fout.write(line)
 
                 else:
-                    getattr(_sys, std).write(line)
+                    sys_std = getattr(_sys, std)
+                    if sys_std is not None:
+                        sys_std.write(line)
 
     def _open_process(self, *args: str, **kwargs: _t.Union[bool, str]) -> int:
         cmd = [self._cmd, *args]

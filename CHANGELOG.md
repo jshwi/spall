@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/spall/compare/v0.2.0...HEAD)
 ------------------------------------------------------------------------
+### Added
+- Checks that `sys.stdout/sys.stderr` is not None
 
 [0.2.0](https://github.com/jshwi/spall/releases/tag/v0.2.0) - 2022-05-06
 ------------------------------------------------------------------------
