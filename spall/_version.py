@@ -1,6 +1,6 @@
 """
 spall._version
-===============
+==============
 
 Contains the version of this package.
 

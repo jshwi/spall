@@ -1,4 +1,9 @@
-"""Register tests as a package."""
+"""
+tests
+=====
+
+Test package for ``spall``.
+"""
 import typing as t
 
 import spall
