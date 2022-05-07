@@ -1,7 +1,7 @@
 {
   "name": "spall",
   "version": "0.2.0",
-  "description": "Intuitive Git for Python",
+  "description": "Object-oriented commandline",
   "private": true,
   "directories": {
     "doc": "docs",
@@ -34,12 +34,11 @@
     "url": "git+https://github.com/jshwi/spall.git"
   },
   "keywords": [
-    "python3.8",
-    "git",
+    "subprocess",
     "commandline",
-    "wrapper",
-    "script",
-    "tree"
+    "oop",
+    "popen",
+    "run"
   ],
   "author": "Stephen Whitlock",
   "license": "MIT",
