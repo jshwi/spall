@@ -1,6 +1,6 @@
 """
 spall.exceptions
-=================
+================
 
 Exceptions for use within the module.
 

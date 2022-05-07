@@ -1,6 +1,6 @@
 """
 spall._subprocess
-==================
+=================
 """
 import functools as _functools
 import os as _os
