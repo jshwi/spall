@@ -40,11 +40,12 @@ pytest = "^6.2.5"
 pytest-randomly = "^3.10.3"
 restview = "^2.9.3"
 sphinx-toolbox = "^2.18.3"
-toml-sort = "^0.19.0"
 
 [tool.pyaud.audit]
 modules = [
-    "files",
+    "toc",
+    "whitelist",
+    "sort-pyproject",
     "format",
     "format-docs",
     "format-str",
@@ -52,7 +53,8 @@ modules = [
     "typecheck",
     "unused",
     "lint",
-    "coverage",
+    "const",
+    "test",
     "docs",
 ]
 
