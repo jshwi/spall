@@ -114,9 +114,6 @@ class Subprocess:
         if not _shutil.which(self._cmd):
             raise _exceptions.CommandNotFoundError(self._cmd)
 
-    def _stringify_cmd(self, args: _t.Tuple[str, ...]) -> str:
-        return f"{self._cmd}{' ' + ' '.join(args) if args else ''}"
-
     def call(self, *args: str, **kwargs: _t.Union[bool, str]) -> int:
         """Call command.
 
@@ -143,7 +140,9 @@ class Subprocess:
         if returncode and not kwargs.get(
             "suppress", self._kwargs.get("suppress", False)
         ):
-            raise _sp.CalledProcessError(returncode, self._stringify_cmd(args))
+            raise _sp.CalledProcessError(
+                returncode, " ".join([self._cmd, *args])
+            )
 
         return returncode
 
