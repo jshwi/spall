@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased](https://github.com/jshwi/spall/compare/v0.4.0...HEAD)
 ------------------------------------------------------------------------
+### Added
+- Includes `CalledProcessError` in `spall.exceptions`
 
 [0.4.0](https://github.com/jshwi/spall/releases/tag/v0.4.0) - 2022-05-09
 ------------------------------------------------------------------------

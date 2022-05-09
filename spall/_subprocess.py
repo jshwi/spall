@@ -140,7 +140,7 @@ class Subprocess:
         if returncode and not kwargs.get(
             "suppress", self._kwargs.get("suppress", False)
         ):
-            raise _sp.CalledProcessError(
+            raise _exceptions.CalledProcessError(
                 returncode, " ".join([self._cmd, *args])
             )
 
