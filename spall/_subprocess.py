@@ -45,7 +45,11 @@ class Subprocess:
     :param positionals: List of positional arguments to set as
         attributes if not None.
     :key file: File path to write stdout and stderr to if not None.
+    :key file_stdout: File path to write stdout to if not None.
+    :key file_stderr: File path to write stderr to if not None.
     :key capture: Collect stdout and stderr array.
+    :key capture_stdout: Collect stdout array.
+    :key capture_stderr: Collect stderr array.
     :key suppress: Suppress errors and continue running.
     """
 
@@ -92,22 +96,27 @@ class Subprocess:
         if std_pipe is not None:
             for line in iter(std_pipe.readline, b""):
                 line = line.decode("utf-8", "ignore")
-                file = kwargs.get("file", self._kwargs.get("file"))
-                std_file = kwargs.get(
-                    f"{std}_file", self._kwargs.get(f"{std}_file", file)
+                file = kwargs.get(
+                    f"{std}_file",
+                    self._kwargs.get(
+                        f"{std}_file",
+                        kwargs.get("file", self._kwargs.get("file")),
+                    ),
                 )
                 capture = kwargs.get(
-                    "capture", self._kwargs.get("capture", False)
-                )
-                std_capture = kwargs.get(
                     f"{std}_capture",
-                    self._kwargs.get(f"{std}_capture", capture),
+                    self._kwargs.get(
+                        f"{std}_capture",
+                        kwargs.get(
+                            "capture", self._kwargs.get("capture", False)
+                        ),
+                    ),
                 )
-                if std_file is not None:
-                    with open(std_file, "a+", encoding="utf-8") as fout:
+                if file is not None:
+                    with open(file, "a+", encoding="utf-8") as fout:
                         fout.write(line)
 
-                elif std_capture:
+                elif capture:
                     getattr(self, f"_{std}").append(line.strip())
 
                 else:
@@ -140,7 +149,11 @@ class Subprocess:
 
         :param args: Positional str arguments.
         :key file: File path to write stdout and stderr to if not None.
+        :key file_stdout: File path to write stdout to if not None.
+        :key file_stderr: File path to write stderr to if not None.
         :key capture: Collect stdout and stderr array.
+        :key capture_stdout: Collect stdout array.
+        :key capture_stderr: Collect stderr array.
         :key suppress: Suppress errors and continue running.
         :raises CommandNotFoundError: If instantiated executable is not
             in path.

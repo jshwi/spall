@@ -2,9 +2,10 @@
 tests._test
 ===========
 """
-# pylint: disable=too-few-public-methods
+# pylint: disable=too-few-public-methods,too-many-arguments
 import contextlib
 import os
+import typing as t
 from datetime import datetime
 from pathlib import Path
 from subprocess import CalledProcessError
@@ -187,3 +188,91 @@ class TestHandleStderr:
             subprocess.call()
 
         assert subprocess.stderr() == [self.EXPECTED]
+
+
+@pytest.mark.parametrize(
+    "kwargs,sys_stdout,sys_stderr,stdout_capture,stderr_capture",
+    [
+        (dict(capture=False, stdout_capture=True), "", STDERR, [STDOUT], []),
+        (dict(capture=True, stdout_capture=True), "", "", [STDOUT], [STDERR]),
+        (dict(capture=False, stderr_capture=True), STDOUT, "", [], [STDERR]),
+        (dict(capture=True, stderr_capture=True), "", "", [STDOUT], [STDERR]),
+    ],
+    ids=[
+        "stdout-capture",
+        "stdout-capture,capture",
+        "stderr-capture",
+        "stderr-capture,capture",
+    ],
+)
+def test_std_capture(
+    capsys: pytest.CaptureFixture,
+    mocksp: MockSubprocessType,
+    kwargs: t.Dict[str, bool],
+    sys_stdout: str,
+    sys_stderr: str,
+    stdout_capture: t.List[str],
+    stderr_capture: t.List[str],
+) -> None:
+    """Test additional kwargs to control stdout and stderr with capture.
+
+    :param capsys: Capture sys output.
+    :param mocksp: Mock and return ``spall.Subprocess`` instance.
+    :param kwargs: Kwargs to pass to ``spall.Subprocess.call``.
+    :param sys_stdout: Expected stdout to console.
+    :param sys_stderr: Expected stderr to console.
+    :param stdout_capture: Expected captured stdout.
+    :param stderr_capture: Expected captured stderr:
+    """
+    stdout = STDOUT.encode()
+    stderr = STDERR.encode()
+    subprocess = mocksp(CMD, [stdout, EMPTY_BYTE], [stderr, EMPTY_BYTE], 0)
+    subprocess.call(**kwargs)
+    output = capsys.readouterr()
+    assert output.out == sys_stdout
+    assert output.err == sys_stderr
+    assert subprocess.stdout() == stdout_capture
+    assert subprocess.stderr() == stderr_capture
+
+
+@pytest.mark.parametrize(
+    "key,sys_stdout,sys_stderr,contents",
+    [("stdout_file", "", STDERR, STDOUT), ("stderr_file", STDOUT, "", STDERR)],
+    ids=[STDOUT, STDERR],
+)
+def test_std_kwargs(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture,
+    mocksp: MockSubprocessType,
+    key: str,
+    sys_stdout: str,
+    sys_stderr: str,
+    contents: str,
+) -> None:
+    """Test additional kwargs to control stdout and stderr to file.
+
+    :param tmp_path: Create and return temporary directory.
+    :param capsys: Capture sys output.
+    :param mocksp: Mock and return ``spall.Subprocess`` instance.
+    :param sys_stdout: Expected stdout to console.
+    :param sys_stderr: Expected stderr to console.
+    :param contents: Expected file contents.
+    """
+    stdout = STDOUT.encode()
+    stderr = STDERR.encode()
+
+    subprocess = mocksp(CMD, [stdout, EMPTY_BYTE], [stderr, EMPTY_BYTE], 0)
+    file_1 = tmp_path / "file_1.txt"
+    subprocess.call(**{key: file_1})
+    output = capsys.readouterr()
+    assert output.out == sys_stdout
+    assert output.err == sys_stderr
+    assert file_1.read_text() == contents
+
+    subprocess = mocksp(CMD, [stdout, EMPTY_BYTE], [stderr, EMPTY_BYTE], 0)
+    file_2 = tmp_path / "file_2.txt"
+    subprocess.call(**{"file": file_2, key: file_2})
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert output.err == ""
+    assert file_2.read_text() == f"{STDOUT}{STDERR}"

@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import typing as t
 
+CMD = "cmd"
+
 
 class Output:
     """Mock stdout and stderr iterable.
