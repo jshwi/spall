@@ -99,15 +99,6 @@ Stdout is accrued until ``stdout()`` is called
     >>> echo.stdout()
     []
 
-Redirect stdout to /dev/null with the ``devnull`` keyword argument
-
-.. code-block:: python
-
-    >>> echo.call("Hello, world", devnull=True)
-    0
-    >>> echo.stdout()
-    []
-
 Pipe stdout to file with the ``file`` keyword argument
 
 .. code-block:: python
@@ -123,6 +114,10 @@ Pipe stdout to file with the ``file`` keyword argument
     >>> returncode
     0
     >>> os.remove(tmp.name)
+
+    # redirect to /dev/null
+    >>> echo.call("Hello, world", file=os.devnull)
+    0
 
 Failing command will raise a ``subprocess.CalledProcessError``
 

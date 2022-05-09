@@ -4,6 +4,7 @@ tests._test
 """
 # pylint: disable=too-few-public-methods
 import contextlib
+import os
 from datetime import datetime
 from pathlib import Path
 from subprocess import CalledProcessError
@@ -108,7 +109,7 @@ class TestHandleStdout:
         :param mocksp: Mock and return ``spall.Subprocess`` instance.
         """
         subprocess = mocksp(
-            CMD, [self.OUTPUT, b""], [b""], self.RETURNCODE, devnull=True
+            CMD, [self.OUTPUT, b""], [b""], self.RETURNCODE, file=os.devnull
         )
         subprocess.call()
         assert not subprocess.stdout()

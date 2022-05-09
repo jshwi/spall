@@ -3,7 +3,6 @@ spall._subprocess
 =================
 """
 import functools as _functools
-import os as _os
 import shutil as _shutil
 import subprocess as _sp
 import sys as _sys
@@ -38,16 +37,15 @@ class Subprocess:
     ``exe`` is a mandatory argument used to construct the subprocess
     executable.
 
-    Default ``file``, ``suppress``, ``capture``, and ``devnull`` values
-    can be set when instantiating the object to be overridden later when
-    using ``call``, or simply set through the ``call`` method alone.
+    Default ``file``, ``suppress``, and ``capture`` values can be set
+    when instantiating the object to be overridden later when using
+    ``call``, or simply set through the ``call`` method alone.
 
     :param cmd: Subprocess executable.
     :param positionals: List of positional arguments to set as
         attributes if not None.
     :key file: File path to write stream to if not None.
     :key capture: Collect output array.
-    :key devnull: Send output to /dev/null.
     :raise CommandNotFoundError: Raise if instantiated subprocess cannot
         exist.
     """
@@ -100,10 +98,6 @@ class Subprocess:
                 elif kwargs.get("capture", self._kwargs.get("capture", False)):
                     getattr(self, f"_{std}").append(line.strip())
 
-                elif kwargs.get("devnull", self._kwargs.get("devnull", False)):
-                    with open(_os.devnull, "w", encoding="utf-8") as fout:
-                        fout.write(line)
-
                 else:
                     sys_std = getattr(_sys, std)
                     if sys_std is not None:
@@ -130,14 +124,11 @@ class Subprocess:
         Pipe stream depending on the keyword arguments provided to
         instance constructor or overridden through this method.
 
-        If a file path is provided it will take precedence over the
-        other options, then capture and then finally devnull.
-
-        Wait for process to finish and return it's exit-code.
+        If a file path is provided it will take precedence over
+        ``capture``.
 
         :param args: Positional str arguments.
         :key file: File path to write stream to if not None.
-        :key devnull: Send output to /dev/null.
         :key capture: Collect output array.
         :key suppress: Suppress errors and continue running.
         :raises CalledProcessError: If error occurs in subprocess.
