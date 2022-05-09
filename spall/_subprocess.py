@@ -4,7 +4,6 @@ spall._subprocess
 """
 import functools as _functools
 import os as _os
-import shutil as _shutil
 import subprocess as _sp
 import sys as _sys
 import typing as _t
@@ -94,11 +93,21 @@ class Subprocess:
             for line in iter(std_pipe.readline, b""):
                 line = line.decode("utf-8", "ignore")
                 file = kwargs.get("file", self._kwargs.get("file"))
-                if file is not None:
-                    with open(file, "a+", encoding="utf-8") as fout:
+                std_file = kwargs.get(
+                    f"{std}_file", self._kwargs.get(f"{std}_file", file)
+                )
+                capture = kwargs.get(
+                    "capture", self._kwargs.get("capture", False)
+                )
+                std_capture = kwargs.get(
+                    f"{std}_capture",
+                    self._kwargs.get(f"{std}_capture", capture),
+                )
+                if std_file is not None:
+                    with open(std_file, "a+", encoding="utf-8") as fout:
                         fout.write(line)
 
-                elif kwargs.get("capture", self._kwargs.get("capture", False)):
+                elif std_capture:
                     getattr(self, f"_{std}").append(line.strip())
 
                 else:
@@ -115,10 +124,6 @@ class Subprocess:
                 self._handle_stream(pipe, std, **kwargs)
 
             return pipe.wait()
-
-    def _sanity_check(self) -> None:
-        if not _shutil.which(self._cmd):
-            raise _exceptions.CommandNotFoundError(self._cmd)
 
     def call(
         self, *args: _t.Any, **kwargs: _t.Union[bool, str, _os.PathLike]
@@ -142,9 +147,12 @@ class Subprocess:
         :raises CalledProcessError: If error occurs in subprocess.
         :return: Exit status.
         """
-        self._sanity_check()
         args = tuple(str(i) for i in args)
-        returncode = self._open_process(*args, **kwargs)
+        try:
+            returncode = self._open_process(*args, **kwargs)
+        except FileNotFoundError as err:
+            raise _exceptions.CommandNotFoundError(self._cmd) from err
+
         if returncode and not kwargs.get(
             "suppress", self._kwargs.get("suppress", False)
         ):

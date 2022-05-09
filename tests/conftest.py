@@ -28,7 +28,6 @@ def fixture_mocksp(monkeypatch: pytest.MonkeyPatch) -> MockSubprocessType:
         **kwargs: t.Any,
     ) -> spall.Subprocess:
         patch = Patch(stdout, stderr, returncode)
-        monkeypatch.setattr("spall.Subprocess._sanity_check", lambda _: None)
         monkeypatch.setattr("spall._subprocess._sp.Popen", patch)
         return spall.Subprocess(cmd, **kwargs)
 
