@@ -43,12 +43,10 @@ class Subprocess:
     using ``call``, or simply set through the ``call`` method alone.
 
     :param cmd: Subprocess executable.
-    :key loglevel: Loglevel for non-error logging.
-    :param positionals: List of positional arguments to set as attributes
-        if not None.
+    :param positionals: List of positional arguments to set as
+        attributes if not None.
     :key file: File path to write stream to if not None.
     :key capture: Collect output array.
-    :key log: Pipe stdout to logging instead of console.
     :key devnull: Send output to /dev/null.
     :raise CommandNotFoundError: Raise if instantiated subprocess cannot
         exist.
@@ -130,11 +128,12 @@ class Subprocess:
         """Call command. Open process with ``subprocess.Popen``.
 
         Pipe stream depending on the keyword arguments provided to
-        instance constructor or overridden through this method. If a
-        file path is provided it will take precedence over the other
-        options, then capture and then finally devnull. Log errors to
-        file regardless. Wait for process to finish and return it's
-        exit-code.
+        instance constructor or overridden through this method.
+
+        If a file path is provided it will take precedence over the
+        other options, then capture and then finally devnull.
+
+        Wait for process to finish and return it's exit-code.
 
         :param args: Positional str arguments.
         :key file: File path to write stream to if not None.
