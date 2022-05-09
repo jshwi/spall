@@ -13,8 +13,7 @@ import pytest
 
 import spall as sp
 
-from . import MockSubprocessType
-from ._utils import CMD
+from . import CMD, EMPTY_BYTE, STDERR, STDOUT, MockSubprocessType
 
 
 def test_command_not_found_error() -> None:
@@ -60,8 +59,8 @@ def test_with_contextlib(capsys: pytest.CaptureFixture) -> None:
 class TestHandleStdout:
     """Test varying ways of handling stdout."""
 
-    OUTPUT = b"stdout"
-    EXPECTED = OUTPUT.decode()
+    OUTPUT = STDOUT.encode()
+    EXPECTED = STDOUT
     RETURNCODE = 0
 
     def test_default(
@@ -72,7 +71,9 @@ class TestHandleStdout:
         :param capsys: Capture sys output.
         :param mocksp: Mock and return ``spall.Subprocess`` instance.
         """
-        subprocess = mocksp(CMD, [self.OUTPUT, b""], [b""], self.RETURNCODE)
+        subprocess = mocksp(
+            CMD, [self.OUTPUT, EMPTY_BYTE], [EMPTY_BYTE], self.RETURNCODE
+        )
         subprocess.call()
         assert capsys.readouterr().out == self.EXPECTED
 
@@ -84,7 +85,11 @@ class TestHandleStdout:
         """
         file = tmp_path / "piped.txt"
         subprocess = mocksp(
-            CMD, [self.OUTPUT, b""], [b""], self.RETURNCODE, file=str(file)
+            CMD,
+            [self.OUTPUT, EMPTY_BYTE],
+            [EMPTY_BYTE],
+            self.RETURNCODE,
+            file=str(file),
         )
         subprocess.call()
         assert file.read_text(encoding="utf-8") == self.EXPECTED
@@ -95,7 +100,11 @@ class TestHandleStdout:
         :param mocksp: Mock and return ``spall.Subprocess`` instance.
         """
         subprocess = mocksp(
-            CMD, [self.OUTPUT, b""], [b""], self.RETURNCODE, capture=True
+            CMD,
+            [self.OUTPUT, EMPTY_BYTE],
+            [EMPTY_BYTE],
+            self.RETURNCODE,
+            capture=True,
         )
         subprocess.call()
         assert subprocess.stdout() == [self.EXPECTED]
@@ -109,7 +118,11 @@ class TestHandleStdout:
         :param mocksp: Mock and return ``spall.Subprocess`` instance.
         """
         subprocess = mocksp(
-            CMD, [self.OUTPUT, b""], [b""], self.RETURNCODE, file=os.devnull
+            CMD,
+            [self.OUTPUT, EMPTY_BYTE],
+            [EMPTY_BYTE],
+            self.RETURNCODE,
+            file=os.devnull,
         )
         subprocess.call()
         assert not subprocess.stdout()
@@ -119,8 +132,8 @@ class TestHandleStdout:
 class TestHandleStderr:
     """Test varying ways of handling stderr."""
 
-    OUTPUT = b"stderr"
-    EXPECTED = OUTPUT.decode()
+    OUTPUT = STDERR.encode()
+    EXPECTED = STDERR
     RETURNCODE = 1
 
     def test_default(self, mocksp: MockSubprocessType) -> None:
@@ -128,7 +141,9 @@ class TestHandleStderr:
 
         :param mocksp: Mock and return ``spall.Subprocess`` instance.
         """
-        subprocess = mocksp(CMD, [b""], [self.OUTPUT, b""], self.RETURNCODE)
+        subprocess = mocksp(
+            CMD, [EMPTY_BYTE], [self.OUTPUT, EMPTY_BYTE], self.RETURNCODE
+        )
         with pytest.raises(CalledProcessError) as err:
             subprocess.call()
 
@@ -147,7 +162,11 @@ class TestHandleStderr:
         :param mocksp: Mock and return ``spall.Subprocess`` instance.
         """
         subprocess = mocksp(
-            CMD, [b""], [self.OUTPUT, b""], self.RETURNCODE, suppress=True
+            CMD,
+            [EMPTY_BYTE],
+            [self.OUTPUT, EMPTY_BYTE],
+            self.RETURNCODE,
+            suppress=True,
         )
         subprocess.call()
         assert self.EXPECTED in capsys.readouterr()[1]
@@ -158,7 +177,11 @@ class TestHandleStderr:
         :param mocksp: Mock and return ``spall.Subprocess`` instance.
         """
         subprocess = mocksp(
-            CMD, [b""], [self.OUTPUT, b""], self.RETURNCODE, capture=True
+            CMD,
+            [EMPTY_BYTE],
+            [self.OUTPUT, EMPTY_BYTE],
+            self.RETURNCODE,
+            capture=True,
         )
         with pytest.raises(CalledProcessError):
             subprocess.call()
