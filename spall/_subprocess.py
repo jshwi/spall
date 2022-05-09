@@ -32,9 +32,9 @@ class _Stream:
 
 
 class Subprocess:
-    """Object-oriented Subprocess.
+    """Create a new ``Subprocess`` object.
 
-    ``exe`` is a mandatory argument used to construct the subprocess
+    ``cmd`` is a mandatory argument used to construct the subprocess
     executable.
 
     Default ``file``, ``suppress``, and ``capture`` values can be set
@@ -44,10 +44,9 @@ class Subprocess:
     :param cmd: Subprocess executable.
     :param positionals: List of positional arguments to set as
         attributes if not None.
-    :key file: File path to write stream to if not None.
-    :key capture: Collect output array.
-    :raise CommandNotFoundError: Raise if instantiated subprocess cannot
-        exist.
+    :key file: File path to write stdout and stderr to if not None.
+    :key capture: Collect stdout and stderr array.
+    :key suppress: Suppress errors and continue running.
     """
 
     def __init__(
@@ -119,7 +118,9 @@ class Subprocess:
         return f"{self._cmd}{' ' + ' '.join(args) if args else ''}"
 
     def call(self, *args: str, **kwargs: _t.Union[bool, str]) -> int:
-        """Call command. Open process with ``subprocess.Popen``.
+        """Call command.
+
+        Open process with ``subprocess.Popen``.
 
         Pipe stream depending on the keyword arguments provided to
         instance constructor or overridden through this method.
@@ -128,9 +129,11 @@ class Subprocess:
         ``capture``.
 
         :param args: Positional str arguments.
-        :key file: File path to write stream to if not None.
-        :key capture: Collect output array.
+        :key file: File path to write stdout and stderr to if not None.
+        :key capture: Collect stdout and stderr array.
         :key suppress: Suppress errors and continue running.
+        :raises CommandNotFoundError: If instantiated executable is not
+            in path.
         :raises CalledProcessError: If error occurs in subprocess.
         :return: Exit status.
         """
