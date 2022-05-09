@@ -276,3 +276,20 @@ def test_std_kwargs(
     assert output.out == ""
     assert output.err == ""
     assert file_2.read_text() == f"{STDOUT}{STDERR}"
+
+
+def test_pipe(
+    capsys: pytest.CaptureFixture, mocksp: MockSubprocessType
+) -> None:
+    """Test piping of stderr to stdout.
+
+    :param capsys: Capture sys output.
+    :param mocksp: Mock and return ``spall.Subprocess`` instance.
+    """
+    stdout = STDOUT.encode()
+    stderr = STDERR.encode()
+    subprocess = mocksp(CMD, [stdout, EMPTY_BYTE], [stderr, EMPTY_BYTE], 0)
+    subprocess.call(pipe=True)
+    output = capsys.readouterr()
+    assert output.out == f"{STDOUT}{STDERR}"
+    assert output.err == ""

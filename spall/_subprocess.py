@@ -50,6 +50,7 @@ class Subprocess:
     :key capture: Collect stdout and stderr array.
     :key capture_stdout: Collect stdout array.
     :key capture_stderr: Collect stderr array.
+    :key pipe: Pipe stderr to stdout.
     :key suppress: Suppress errors and continue running.
     """
 
@@ -88,13 +89,16 @@ class Subprocess:
 
     def _handle_stream(
         self,
-        pipe: _sp.Popen,
+        popen: _sp.Popen,
         std: str,
         **kwargs: _t.Union[bool, str, _os.PathLike],
     ) -> None:
-        std_pipe = getattr(pipe, std)
+        std_pipe = getattr(popen, std)
         if std_pipe is not None:
             for line in iter(std_pipe.readline, b""):
+                if kwargs.get("pipe", self._kwargs.get("pipe", False)):
+                    std = "stdout"
+
                 line = line.decode("utf-8", "ignore")
                 file = kwargs.get(
                     f"{std}_file",
@@ -128,11 +132,11 @@ class Subprocess:
         self, *args: str, **kwargs: _t.Union[bool, str, _os.PathLike]
     ) -> int:
         cmd = [self._cmd, *args]
-        with _sp.Popen(cmd, stdout=_sp.PIPE, stderr=_sp.PIPE) as pipe:
+        with _sp.Popen(cmd, stdout=_sp.PIPE, stderr=_sp.PIPE) as popen:
             for std in ("stdout", "stderr"):
-                self._handle_stream(pipe, std, **kwargs)
+                self._handle_stream(popen, std, **kwargs)
 
-            return pipe.wait()
+            return popen.wait()
 
     def call(
         self, *args: _t.Any, **kwargs: _t.Union[bool, str, _os.PathLike]
@@ -154,6 +158,7 @@ class Subprocess:
         :key capture: Collect stdout and stderr array.
         :key capture_stdout: Collect stdout array.
         :key capture_stderr: Collect stderr array.
+        :key pipe: Pipe stderr to stdout.
         :key suppress: Suppress errors and continue running.
         :raises CommandNotFoundError: If instantiated executable is not
             in path.

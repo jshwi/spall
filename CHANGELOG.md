@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [Unreleased](https://github.com/jshwi/spall/compare/v0.4.0...HEAD)
 ------------------------------------------------------------------------
 ### Added
+- add: Adds `pipe` keyword argument to pipe stderr to stdout
 - Adds additional keyword arguments to control stdout and stderr
 - Includes `CalledProcessError` in `spall.exceptions`
 
