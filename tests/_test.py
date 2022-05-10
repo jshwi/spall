@@ -146,7 +146,7 @@ class TestHandleStderr:
             CMD, [EMPTY_BYTE], [self.OUTPUT, EMPTY_BYTE], self.RETURNCODE
         )
         with pytest.raises(CalledProcessError) as err:
-            subprocess.call()
+            subprocess.call(file=os.devnull)
 
         assert str(
             err.value
