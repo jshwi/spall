@@ -2,6 +2,8 @@
 spall._subprocess
 =================
 """
+from __future__ import annotations
+
 import functools as _functools
 import os as _os
 import subprocess as _sp
@@ -57,8 +59,8 @@ class Subprocess:
     def __init__(
         self,
         cmd: str,
-        positionals: _t.Optional[_t.Iterable[str]] = None,
-        **kwargs: _t.Union[bool, str, _os.PathLike],
+        positionals: _t.Iterable[str] | None = None,
+        **kwargs: bool | str | _os.PathLike,
     ) -> None:
         self._cmd = cmd
         self._kwargs = kwargs
@@ -89,10 +91,7 @@ class Subprocess:
             )
 
     def _handle_stream(
-        self,
-        popen: _sp.Popen,
-        std: str,
-        **kwargs: _t.Union[bool, str, _os.PathLike],
+        self, popen: _sp.Popen, std: str, **kwargs: bool | str | _os.PathLike
     ) -> None:
         std_pipe = getattr(popen, std)
         if std_pipe is not None:
@@ -130,7 +129,7 @@ class Subprocess:
                         sys_std.write(line)
 
     def _open_process(
-        self, *args: str, **kwargs: _t.Union[bool, str, _os.PathLike]
+        self, *args: str, **kwargs: bool | str | _os.PathLike
     ) -> int:
         cmd = [self._cmd, *args]
         with _sp.Popen(cmd, stdout=_sp.PIPE, stderr=_sp.PIPE) as popen:
@@ -139,9 +138,7 @@ class Subprocess:
 
             return popen.wait()
 
-    def call(
-        self, *args: _t.Any, **kwargs: _t.Union[bool, str, _os.PathLike]
-    ) -> int:
+    def call(self, *args: _t.Any, **kwargs: bool | str | _os.PathLike) -> int:
         """Call command.
 
         Open process with ``subprocess.Popen``.
