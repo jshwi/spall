@@ -21,8 +21,8 @@ platformdirs = ">=2.3.0"
 requests = ">=2.24.0"
 
 [package.extras]
-all = ["cachecontrol[filecache] (>=0.12.6)", "lockfile (>=0.12.2)"]
-limiter = ["cachecontrol[filecache] (>=0.12.6)", "lockfile (>=0.12.2)"]
+limiter = ["lockfile (>=0.12.2)", "cachecontrol[filecache] (>=0.12.6)"]
+all = ["lockfile (>=0.12.2)", "cachecontrol[filecache] (>=0.12.6)"]
 
 [[package]]
 name = "appdirs"
@@ -290,8 +290,8 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-docs = ["sphinx", "jaraco.packaging (>=9)", "rst.linker (>=1.9)"]
-testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "mock", "lxml", "cssselect", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)", "importlib-resources"]
+testing = ["importlib-resources", "pytest-mypy (>=0.9.1)", "pytest-black (>=0.3.7)", "cssselect", "lxml", "mock", "pytest-enabler (>=1.0.1)", "pytest-cov", "pytest-flake8", "pytest-checkdocs (>=2.4)", "pytest (>=6)"]
+docs = ["rst.linker (>=1.9)", "jaraco.packaging (>=9)", "sphinx"]
 
 [[package]]
 name = "decorator"
@@ -347,6 +347,17 @@ python-versions = "*"
 
 [package.dependencies]
 untokenize = "*"
+
+[[package]]
+name = "docsig"
+version = "0.10.0"
+description = "Check signature params for proper documentation"
+category = "dev"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+object-colors = ">=2.1.0,<3.0.0"
 
 [[package]]
 name = "docutils"
@@ -446,8 +457,8 @@ python-versions = ">=3.6.1"
 domdf-python-tools = ">=3.1.0"
 
 [package.extras]
-all = ["coincidence (>=0.2.0)", "pytest (>=6.0.0)"]
-testing = ["coincidence (>=0.2.0)", "pytest (>=6.0.0)"]
+testing = ["pytest (>=6.0.0)", "coincidence (>=0.2.0)"]
+all = ["pytest (>=6.0.0)", "coincidence (>=0.2.0)"]
 
 [[package]]
 name = "html5lib"
@@ -462,10 +473,10 @@ six = ">=1.9"
 webencodings = "*"
 
 [package.extras]
-all = ["genshi", "chardet (>=2.2)", "lxml"]
-chardet = ["chardet (>=2.2)"]
-genshi = ["genshi"]
 lxml = ["lxml"]
+genshi = ["genshi"]
+chardet = ["chardet (>=2.2)"]
+all = ["lxml", "chardet (>=2.2)", "genshi"]
 
 [[package]]
 name = "idna"
@@ -613,18 +624,6 @@ python-versions = ">=3.8,<4.0"
 gitspy = ">=0,<1"
 
 [[package]]
-name = "m2r"
-version = "0.2.1"
-description = "Markdown and reStructuredText in a single file."
-category = "dev"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-docutils = "*"
-mistune = "*"
-
-[[package]]
 name = "markupsafe"
 version = "2.1.1"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -667,14 +666,6 @@ description = "McCabe checker, plugin for flake8"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
-
-[[package]]
-name = "mistune"
-version = "0.8.4"
-description = "The fastest markdown parser in pure Python"
-category = "dev"
-optional = false
-python-versions = "*"
 
 [[package]]
 name = "msgpack"
@@ -724,14 +715,14 @@ icu = ["PyICU (>=1.0.0)"]
 
 [[package]]
 name = "object-colors"
-version = "2.0.1"
-description = "Adding colours to Python simplified into a single class"
+version = "2.1.0"
+description = "Object-oriented library for stylizing terminal output"
 category = "dev"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-colorama = "0.4.4"
+colorama = ">=0.4.4,<0.5.0"
 
 [[package]]
 name = "packaging"
@@ -816,8 +807,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
+testing = ["pytest-benchmark", "pytest"]
+dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "prompt-toolkit"
@@ -859,7 +850,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "pyaud"
-version = "3.13.5"
+version = "4.0.2"
 description = "Framework for writing Python package audits"
 category = "dev"
 optional = false
@@ -870,16 +861,15 @@ appdirs = ">=1.4.4,<2.0.0"
 environs = ">=9.4.0,<10.0.0"
 gitspy = ">=0,<1"
 lsfiles = ">=0,<1"
-m2r = ">=0.2.1,<0.3.0"
-mistune = "<=0.8.4"
 object-colors = ">=2.0.1,<3.0.0"
-pyaud-plugins = ">=0,<1"
+pyaud-plugins = ">=0.8"
 spall = ">=0,<1"
-toml = ">=0.10.2,<0.11.0"
+tomli = ">=2.0.1,<3.0.0"
+tomli-w = ">=1.0.0,<2.0.0"
 
 [[package]]
 name = "pyaud-plugins"
-version = "0.6.0"
+version = "0.9.0"
 description = "Plugin package for Pyaud"
 category = "dev"
 optional = false
@@ -889,15 +879,15 @@ python-versions = ">=3.8,<4.0"
 appdirs = ">=1.4.4,<2.0.0"
 black = ">=21.12,<23.0"
 codecov = ">=2.1.12,<3.0.0"
-constcheck = ">=0.4.1,<0.5.0"
+constcheck = ">=0,<1"
 coverage = ">=6.2,<7.0"
 docformatter = ">=1.4,<2.0"
+docsig = ">=0,<1"
 environs = ">=9.4.0,<10.0.0"
 flynt = ">=0.75,<0.77"
+gitspy = ">=0,<1"
 isort = ">=5.10.1,<6.0.0"
-m2r = ">=0.2.1,<0.3.0"
-mistune = "<=0.8.4"
-mypy = ">=0.930,<0.951"
+mypy = ">=0.930,<0.972"
 object-colors = ">=2.0.1,<3.0.0"
 pipfile-requirements = ">=0.3.0,<0.4.0"
 pylint = ">=2.12.2,<3.0.0"
@@ -972,9 +962,9 @@ toml = ">=0.10.2"
 typing-extensions = ">=3.7.4.3"
 
 [package.extras]
-all = ["click (>=7.1.2)", "consolekit (>=1.2.0)", "docutils (==0.16)", "readme-renderer[md] (>=27.0)"]
-cli = ["click (>=7.1.2)", "consolekit (>=1.2.0)"]
-readme = ["docutils (==0.16)", "readme-renderer[md] (>=27.0)"]
+readme = ["readme-renderer[md] (>=27.0)", "docutils (==0.16)"]
+cli = ["consolekit (>=1.2.0)", "click (>=7.1.2)"]
+all = ["readme-renderer[md] (>=27.0)", "docutils (==0.16)", "consolekit (>=1.2.0)", "click (>=7.1.2)"]
 
 [[package]]
 name = "pytest"
@@ -1010,7 +1000,7 @@ coverage = {version = ">=5.2.1", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtualenv"]
+testing = ["virtualenv", "pytest-xdist", "six", "process-tests", "hunter", "fields"]
 
 [[package]]
 name = "pytest-randomly"
@@ -1307,8 +1297,8 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-lint = ["flake8", "mypy", "docutils-stubs"]
 test = ["pytest"]
+lint = ["docutils-stubs", "mypy", "flake8"]
 
 [[package]]
 name = "sphinxcontrib-devhelp"
@@ -1319,8 +1309,8 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-lint = ["flake8", "mypy", "docutils-stubs"]
 test = ["pytest"]
+lint = ["docutils-stubs", "mypy", "flake8"]
 
 [[package]]
 name = "sphinxcontrib-fulltoc"
@@ -1339,8 +1329,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-lint = ["flake8", "mypy", "docutils-stubs"]
-test = ["pytest", "html5lib"]
+test = ["html5lib", "pytest"]
+lint = ["docutils-stubs", "mypy", "flake8"]
 
 [[package]]
 name = "sphinxcontrib-jsmath"
@@ -1351,7 +1341,7 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-test = ["pytest", "flake8", "mypy"]
+test = ["mypy", "flake8", "pytest"]
 
 [[package]]
 name = "sphinxcontrib-programoutput"
@@ -1373,8 +1363,8 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-lint = ["flake8", "mypy", "docutils-stubs"]
 test = ["pytest"]
+lint = ["docutils-stubs", "mypy", "flake8"]
 
 [[package]]
 name = "sphinxcontrib-serializinghtml"
@@ -1402,7 +1392,7 @@ executing = "*"
 pure-eval = "*"
 
 [package.extras]
-tests = ["pytest", "typeguard", "pygments", "littleutils", "cython"]
+tests = ["cython", "littleutils", "pygments", "typeguard", "pytest"]
 
 [[package]]
 name = "tabulate"
@@ -1438,6 +1428,14 @@ tomlkit = ">=0.8.0"
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
+name = "tomli-w"
+version = "1.0.0"
+description = "A lil' TOML writer"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
@@ -1540,7 +1538,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "45221ea2fd761324359c81558d691e5960675ceae04a0289bde6573246195aab"
+content-hash = "be11701cd8f22f6c74495f04c4e2726bc8b3abbc20442e1b488194c1807c9336"
 
 [metadata.files]
 alabaster = [
@@ -1723,6 +1721,10 @@ dist-meta = [
 docformatter = [
     {file = "docformatter-1.4.tar.gz", hash = "sha256:064e6d81f04ac96bc0d176cbaae953a0332482b22d3ad70d47c8a7f2732eef6f"},
 ]
+docsig = [
+    {file = "docsig-0.10.0-py3-none-any.whl", hash = "sha256:d274d77a91c4c8a1b4c09d037337f03b2894217418618380ddb1b22ebcffa7c7"},
+    {file = "docsig-0.10.0.tar.gz", hash = "sha256:1b2cf28740951dd214ba10acd8536961647503133ad12489ff0bc9c5298db1e2"},
+]
 docutils = [
     {file = "docutils-0.16-py2.py3-none-any.whl", hash = "sha256:0c5b78adfbf7762415433f5515cd5c9e762339e23369dbe8000d84a4bf4ab3af"},
     {file = "docutils-0.16.tar.gz", hash = "sha256:c2de3a60e9e7d07be26b7f2b00ca0309c207e06c100f9cc2a94931fc75a478fc"},
@@ -1838,9 +1840,6 @@ lsfiles = [
     {file = "lsfiles-0.1.2-py3-none-any.whl", hash = "sha256:2b45f7a12af5c8ba3124875bf7bc2e410c991dd3152f29dad95483d776d5f96e"},
     {file = "lsfiles-0.1.2.tar.gz", hash = "sha256:0555f777cb3d6117639bdc900362db0df5838cc92bf5a517ebe4505ec3bf798d"},
 ]
-m2r = [
-    {file = "m2r-0.2.1.tar.gz", hash = "sha256:bf90bad66cda1164b17e5ba4a037806d2443f2a4d5ddc9f6a5554a0322aaed99"},
-]
 markupsafe = [
     {file = "MarkupSafe-2.1.1-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:86b1f75c4e7c2ac2ccdaec2b9022845dbb81880ca318bb7a0a01fbf7813e3812"},
     {file = "MarkupSafe-2.1.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:f121a1420d4e173a5d96e47e9a0c0dcff965afdf1626d28de1460815f7c4ee7a"},
@@ -1894,10 +1893,6 @@ matplotlib-inline = [
 mccabe = [
     {file = "mccabe-0.7.0-py2.py3-none-any.whl", hash = "sha256:6c2d30ab6be0e4a46919781807b4f0d834ebdd6c6e3dca0bda5a15f863427b6e"},
     {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
-]
-mistune = [
-    {file = "mistune-0.8.4-py2.py3-none-any.whl", hash = "sha256:88a1051873018da288eee8538d476dffe1262495144b33ecb586c4ab266bb8d4"},
-    {file = "mistune-0.8.4.tar.gz", hash = "sha256:59a3429db53c50b5c6bcc8a07f8848cb00d7dc8bdb431a4ab41920d201d4756e"},
 ]
 msgpack = [
     {file = "msgpack-1.0.3-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:96acc674bb9c9be63fa8b6dabc3248fdc575c4adc005c440ad02f87ca7edd079"},
@@ -1969,8 +1964,8 @@ natsort = [
     {file = "natsort-8.1.0.tar.gz", hash = "sha256:c7c1f3f27c375719a4dfcab353909fe39f26c2032a062a8c80cc844eaaca0445"},
 ]
 object-colors = [
-    {file = "object_colors-2.0.1-py3-none-any.whl", hash = "sha256:dd62c7cecd0360a73286609f12b92e09b557a50ea0bb367c2bc31e25e077feb4"},
-    {file = "object_colors-2.0.1.tar.gz", hash = "sha256:5a70dc0927cbbeb45ae9534b6688ad947af6d56636421ff661727e5eef0455f2"},
+    {file = "object-colors-2.1.0.tar.gz", hash = "sha256:9788bffd73706dd1a7ee383b0d137ae33705d58a0228870863c6a67ec4891a41"},
+    {file = "object_colors-2.1.0-py3-none-any.whl", hash = "sha256:c8c9ef773b3f388154e7fe8266061d77b91d9b15b6684dc4535fb7f1f56f8c92"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
@@ -2021,12 +2016,12 @@ py = [
     {file = "py-1.11.0.tar.gz", hash = "sha256:51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719"},
 ]
 pyaud = [
-    {file = "pyaud-3.13.5-py3-none-any.whl", hash = "sha256:8d895ee0bf96a52abee47220244ce8c85cba469edd12e8d6cb7a5fad13c7cdd0"},
-    {file = "pyaud-3.13.5.tar.gz", hash = "sha256:5ec4265c1ecd3c488fcc9a263338ed8ad4a06865d607163cf2cc7bd38cc3f27e"},
+    {file = "pyaud-4.0.2-py3-none-any.whl", hash = "sha256:24839f53f81c33b0c5a51bc9677e0db2defba592dbc487c0b0cbc210229e50f5"},
+    {file = "pyaud-4.0.2.tar.gz", hash = "sha256:7d7cb58039b2eab07c51da554cb714906e8f0b1c68e7eba72852b75ea3b9ccb1"},
 ]
 pyaud-plugins = [
-    {file = "pyaud-plugins-0.6.0.tar.gz", hash = "sha256:df732d265a9d03f609ba87a050da59f46d2faba90147b328917b1d209585126f"},
-    {file = "pyaud_plugins-0.6.0-py3-none-any.whl", hash = "sha256:0baf959ba3f8e665e471c384f9ffb49d3eec5b72d048ed57a1125524abcecddc"},
+    {file = "pyaud-plugins-0.9.0.tar.gz", hash = "sha256:775c27779e756c56f0647e1d7f1354768688066fde8c8b07b9d4750de35f594f"},
+    {file = "pyaud_plugins-0.9.0-py3-none-any.whl", hash = "sha256:51548b39cbaad1c0307a456b4582e249a9459ef706acb3b449b4ffd50d3878b4"},
 ]
 pygments = [
     {file = "Pygments-2.12.0-py3-none-any.whl", hash = "sha256:dc9c10fb40944260f6ed4c688ece0cd2048414940f1cea51b8b226318411c519"},
@@ -2203,6 +2198,10 @@ toml-sort = [
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
+tomli-w = [
+    {file = "tomli_w-1.0.0-py3-none-any.whl", hash = "sha256:9f2a07e8be30a0729e533ec968016807069991ae2fd921a78d42f429ae5f4463"},
+    {file = "tomli_w-1.0.0.tar.gz", hash = "sha256:f463434305e0336248cac9c2dc8076b707d8a12d019dd349f5c1e382dd1ae1b9"},
 ]
 tomlkit = [
     {file = "tomlkit-0.10.2-py3-none-any.whl", hash = "sha256:905cf92c2111ef80d355708f47ac24ad1b6fc2adc5107455940088c9bbecaedb"},
