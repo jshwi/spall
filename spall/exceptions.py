@@ -7,7 +7,7 @@ Exceptions for use within the module.
 All exceptions made public for if they need to be reraised or excepted.
 """
 # noinspection PyUnresolvedReferences
-from subprocess import CalledProcessError  # pylint: disable=unused-import
+from subprocess import CalledProcessError  # noqa pylint: disable=unused-import
 
 
 class CommandNotFoundError(OSError):
