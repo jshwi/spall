@@ -4,11 +4,14 @@ spall
     :target: https://opensource.org/licenses/MIT
     :alt: License
 .. image:: https://img.shields.io/pypi/v/spall
-    :target: https://img.shields.io/pypi/v/spall
-    :alt: pypi
+    :target: https://pypi.org/project/spall/
+    :alt: PyPI
 .. image:: https://github.com/jshwi/spall/actions/workflows/ci.yml/badge.svg
     :target: https://github.com/jshwi/spall/actions/workflows/ci.yml
     :alt: CI
+.. image:: https://results.pre-commit.ci/badge/github/jshwi/spall/master.svg
+   :target: https://results.pre-commit.ci/latest/github/jshwi/spall/master
+   :alt: pre-commit.ci status
 .. image:: https://github.com/jshwi/spall/actions/workflows/codeql-analysis.yml/badge.svg
     :target: https://github.com/jshwi/spall/actions/workflows/codeql-analysis.yml
     :alt: CodeQL
@@ -23,7 +26,10 @@ spall
     :alt: python3.8
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
-    :alt: black
+    :alt: Black
+.. image:: https://img.shields.io/badge/linting-pylint-yellowgreen
+    :target: https://github.com/PyCQA/pylint
+    :alt: pylint
 
 Object-oriented commandline
 ---------------------------
@@ -163,4 +169,3 @@ Which can then be overridden
     0
     >>> echo.stdout()
     []
-
