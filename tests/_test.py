@@ -254,6 +254,7 @@ def test_std_kwargs(
     :param tmp_path: Create and return temporary directory.
     :param capsys: Capture sys output.
     :param mocksp: Mock and return ``spall.Subprocess`` instance.
+    :param key: Kwarg keyword.
     :param sys_stdout: Expected stdout to console.
     :param sys_stderr: Expected stderr to console.
     :param contents: Expected file contents.
