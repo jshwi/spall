@@ -82,7 +82,8 @@ class Subprocess:
 
     def _set_positionals(self, positionals: _t.Iterable[str]) -> None:
         for positional in positionals:
-            self.__setattr__(
+            setattr(
+                self,
                 positional.replace("-", "_"),
                 _functools.partial(self.call, positional),
             )
