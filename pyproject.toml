@@ -18,7 +18,11 @@ line-length = 79
 skip-magic-trailing-comma = true
 
 [tool.constcheck]
-filter = true
+ignore_strings = [
+    "store",
+    "store_true",
+    "utf-8",
+]
 
 [tool.coverage.report]
 fail_under = 100
@@ -27,6 +31,10 @@ fail_under = 100
 omit = [
     "whitelist.py",
 ]
+
+[tool.docsig]
+check-class = true
+summary = true
 
 [tool.isort]
 ensure_newline_before_comments = true
@@ -42,6 +50,8 @@ authors = [
     "jshwi <stephen@jshwisolutions.com>",
 ]
 description = "Object-oriented commandline"
+documentation = "https://spall.readthedocs.io/en/latest"
+homepage = "https://pypi.org/project/spall/"
 keywords = [
     "subprocess",
     "commandline",
@@ -50,8 +60,12 @@ keywords = [
     "run",
 ]
 license = "MIT"
+maintainers = [
+    "jshwi <stephen@jshwisolutions.com>",
+]
 name = "spall"
 readme = "README.rst"
+repository = "https://github.com/jshwi/spall"
 version = "0.5.0"
 
 [tool.poetry.dependencies]
@@ -70,9 +84,7 @@ sphinx-toolbox = "^2.18.3"
 
 [tool.pyaud.audit]
 modules = [
-    "toc",
-    "whitelist",
-    "sort-pyproject",
+    "files",
     "format",
     "format-docs",
     "format-str",
@@ -81,15 +93,16 @@ modules = [
     "unused",
     "lint",
     "const",
+    "params",
     "test",
     "docs",
 ]
 
 [tool.pyaud.clean]
 exclude = [
-    "*.egg*",
     ".mypy_cache",
     ".env",
+    "node_modules",
 ]
 
 [tool.pyaud.indexing]
@@ -130,8 +143,8 @@ addopts = [
 filterwarnings = "ignore::DeprecationWarning"
 norecursedirs = [
     "docs",
-    "*.egg-info",
     ".git",
     ".mypy_cache",
     ".idea",
+    ".pytest_cache"
 ]
