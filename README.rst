@@ -30,6 +30,9 @@ spall
 .. image:: https://img.shields.io/badge/linting-pylint-yellowgreen
     :target: https://github.com/PyCQA/pylint
     :alt: pylint
+.. image:: https://snyk.io/test/github/jshwi/spall/badge.svg
+    :target: https://snyk.io/test/github/jshwi/spall/badge.svg
+    :alt: Known Vulnerabilities
 
 Object-oriented commandline
 ---------------------------
