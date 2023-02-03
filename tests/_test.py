@@ -14,7 +14,7 @@ import pytest
 
 import spall as sp
 
-from . import CMD, EMPTY_BYTE, STDERR, STDOUT, MockSubprocessType
+from . import CAPTURE, CMD, EMPTY_BYTE, STDERR, STDOUT, MockSubprocessType
 
 
 def test_command_not_found_error() -> None:
@@ -193,10 +193,10 @@ class TestHandleStderr:
 @pytest.mark.parametrize(
     "kwargs,sys_stdout,sys_stderr,stdout_capture,stderr_capture",
     [
-        (dict(capture=False, stdout_capture=True), "", STDERR, [STDOUT], []),
-        (dict(capture=True, stdout_capture=True), "", "", [STDOUT], [STDERR]),
-        (dict(capture=False, stderr_capture=True), STDOUT, "", [], [STDERR]),
-        (dict(capture=True, stderr_capture=True), "", "", [STDOUT], [STDERR]),
+        ({CAPTURE: False, "stdout_capture": True}, "", STDERR, [STDOUT], []),
+        ({CAPTURE: True, "stdout_capture": True}, "", "", [STDOUT], [STDERR]),
+        ({CAPTURE: False, "stderr_capture": True}, STDOUT, "", [], [STDERR]),
+        ({CAPTURE: True, "stderr_capture": True}, "", "", [STDOUT], [STDERR]),
     ],
     ids=[
         "stdout-capture",
