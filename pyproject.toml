@@ -80,7 +80,7 @@ pylint = "^2.15.9"
 pytest = "^7.1.2"
 pytest-randomly = "^3.10.3"
 restview = "^3.0.0"
-sphinx-toolbox = "^2.18.3"
+sphinx-toolbox = "^3.4.0"
 
 [tool.pyaud]
 audit = [
