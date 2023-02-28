@@ -6,9 +6,9 @@ spall
 .. image:: https://img.shields.io/pypi/v/spall
     :target: https://pypi.org/project/spall/
     :alt: PyPI
-.. image:: https://github.com/jshwi/spall/actions/workflows/ci.yml/badge.svg
-    :target: https://github.com/jshwi/spall/actions/workflows/ci.yml
-    :alt: CI
+.. image:: https://github.com/jshwi/spall/actions/workflows/build.yaml/badge.svg
+    :target: https://github.com/jshwi/spall/actions/workflows/build.yaml
+    :alt: Build
 .. image:: https://github.com/jshwi/spall/actions/workflows/codeql-analysis.yml/badge.svg
     :target: https://github.com/jshwi/spall/actions/workflows/codeql-analysis.yml
     :alt: CodeQL
