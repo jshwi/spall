@@ -12,13 +12,13 @@ Bases: `object`
 Test varying ways of handling stderr.
 
 
-#### EXPECTED(_ = 'stderr_ )
+#### EXPECTED( = `'stderr'`)
 
-#### OUTPUT(_ = b'stderr_ )
+#### OUTPUT( = `b'stderr'`)
 
-#### RETURNCODE(_ = _ )
+#### RETURNCODE( = `1`)
 
-#### test_capture(mocksp: Callable[[...], [spall._subprocess.Subprocess](spall.md#spall.Subprocess)])
+#### test_capture(mocksp: )
 Test stderr when captured.
 
 
@@ -27,7 +27,7 @@ Test stderr when captured.
 Test `CommandNotFoundError` warning with `Subprocess`.
 
 
-### Pipe(capsys:  pytest.capture.capturefixture, mocksp: callable[[...], [spall. subprocess.subprocess]
+### Pipe
 
 Test piping of stderr to stdout.
 
@@ -42,12 +42,12 @@ Test `Subprocess`’s repr.
 Test setting of subprocesses with heavy use of positionals.
 
 
-### Std capture(capsys:  pytest.capture.capturefixture, mocksp: callable[[...], [spall. subprocess.subprocess]
+### Std capture
 
 Test additional kwargs to control stdout and stderr with capture.
 
 
-### Std kwargs(tmp path: pathlib.path, capsys:  pytest.capture.capturefixture, mocksp: callable[[...], [spall. subprocess.subprocess]
+### Std kwargs
 
 Test additional kwargs to control stdout and stderr to file.
 
