@@ -86,6 +86,7 @@ sphinx-toolbox = "^2.18.3"
 
 [tool.pyaud]
 audit = [
+  "about-tests",
   "commit-policy",
   "const",
   "docs",
