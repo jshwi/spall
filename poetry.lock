@@ -565,14 +565,14 @@ files = [
 
 [[package]]
 name = "deptry"
-version = "0.8.0"
+version = "0.9.0"
 description = "A command line utility to check for obsolete, missing and transitive dependencies in a Python project."
 category = "dev"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = ">=3.8,<4.0"
 files = [
-    {file = "deptry-0.8.0-py3-none-any.whl", hash = "sha256:12f161748907781a5f6e6931694b40db7af7e0aa4b7888334a677cd4670daf7a"},
-    {file = "deptry-0.8.0.tar.gz", hash = "sha256:b15a31d4bc2c074de834ba4207b2f03e49a4bea8cb73e14e7376a26431b9c606"},
+    {file = "deptry-0.9.0-py3-none-any.whl", hash = "sha256:0022bb18288b73bf09538819645f79b6093e853f75fe4f1f36237a1e1375a2f4"},
+    {file = "deptry-0.9.0.tar.gz", hash = "sha256:a15785876c54b0540fd07564cb3fca78e3c4688fe2d31c37d13e52fdc339412c"},
 ]
 
 [package.dependencies]
@@ -2717,4 +2717,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "a1ac17f81b5c058c3364074437e717ac8aa2b93619863c850fad1f2ea335bf63"
+content-hash = "cb0a233a2ed7da32f1743f2e14c4efdda991c8fecd22f43560108e1a297f3b77"
