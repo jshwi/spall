@@ -82,7 +82,6 @@ html_theme_options = {
     "site_url": "https://spall.readthedocs.io/",
     "repo_url": "https://github.com/jshwi/spall/",
     "repo_name": "spall",
-    "repo_type": "github",
     "edit_uri": "blob/master/docs",
     "globaltoc_collapse": True,
     "features": [
