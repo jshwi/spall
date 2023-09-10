@@ -1,5 +1,14 @@
+Status: Archived
+==================
+This repository has been archived and is no longer maintained
+
+Use ``subprocess.run`` instead
+
 spall
 =====
+.. image:: https://img.shields.io/badge/status-inactive-red.svg
+    :target: https://img.shields.io/badge/status-inactive-red.svg
+    :alt: Status Inactive
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
     :target: https://opensource.org/licenses/MIT
     :alt: License
